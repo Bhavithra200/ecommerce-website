@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Order Placed</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style sheet="text/css">
+    table{
+      border:1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <h1>✅ Your order has been placed!</h1>
+  <p>Order ID: {{ order_id }}</p>
+  <p>Order Date & Time: {{ order_time.strftime('%d-%m-%Y %H:%M:%S') }}</p>
+
+  <h2>Order Details:</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+        <td>{{ item.name }}</td>
+        
+        <td>₹{{ item.price }}</td>
+       
+        <td>{{ item.quantity }}</td>
+        
+        <td>₹{{ '%.2f' | format(item.price * item.quantity) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h3>Total: ₹{{ '%.2f' | format(total) }}</h3>
+
+  <a href="{{ url_for('index') }}">← Continue Shopping</a>
+</body>
+</html>

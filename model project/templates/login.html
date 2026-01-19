@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background:url("https://wallpapercave.com/wp/wp6603070.png");
+    }
+    form {
+      background: #fff;
+      padding: 60px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 350px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0 15px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color:lavender;
+      border:2px solid black;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #hi {
+      font-size:25px;
+      color: white;
+      border: 2px solid blue;
+      width:100%;
+      padding:5px;
+      text-align:center;
+      background-color: blue;
+    }
+    label{
+      font-size: 20px;
+    }
+    .flash {
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+    }
+    .flash-warning { background-color: #f9edbe; color: #222; }
+    .flash-danger { background-color: #f8d7da; color: #721c24; }
+    .flash-success { background-color: #d4edda; color: #155724; }
+    .flash-info { background-color: #cce5ff; color: #004085; }
+  </style>
+</head>
+<body>
+
+<script>
+function great() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("pass");
+  const message = document.getElementById("message");
+
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (email === "") {
+    message.style.color = "red";
+    password.disabled = true;
+    message.innerText = "Please enter an email address.";
+    return;
+  }
+
+  if (!emailPattern.test(email)) {
+    message.style.color = "red";
+    password.disabled = true;
+    message.innerText = "Please enter a valid email address.";
+    return;
+  }
+
+  message.style.color = "#94d400";
+  message.innerText = "Email verified";
+  password.disabled = false;
+}
+function sub(){ 
+ const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("pass").value.trim();
+  const message = document.getElementById("message");
+
+  if (email === "" || password === "") {
+   alert("fill all the field");
+    return;
+  }
+else{
+  alert("Submitted successfully!");
+  }
+}
+function pas(){
+const password = document.getElementById("pass").value.trim();
+const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+const message = document.getElementById("message");
+
+
+if (!passwordPattern.test(password)) {
+message.style.color="red";
+   message.innerText= "Password must be at least 8 characters, include upper & lowercase letters, a number, and a special character.";
+    return;}
+
+message.innerText="Strong password";
+message.style.color="yellow";
+return;
+}
+
+
+</script>
+  <!-- At the top of your HTML, e.g., inside <body> -->
+
+
+  <form method="post" action="{{ url_for('user_bp.login') }}">
+    <div style="text-align:center; margin-bottom:10px;">
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div style="display:inline-block; padding:8px 12px; border-radius:5px; color:white; background-color:red;">
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+</div>
+
+    <h1 id="hi">Login</h1><br>
+
+    <label>Email</label>
+    <input name="email" type="email" placeholder="Enter email" id="email" onkeyup="great()" required>
+    <label>Password</label>
+    <input name="password" type="password" placeholder="Enter Password" id="pass" onkeyup="pas()" required><br><br>
+    <button id="log" type="submit">Login</button><br><br>
+    <p>Don't have an account? <a href="{{ url_for('user_bp.register') }}">Register</a></p>
+
+    <p id="message"></p>
+    
+  </form>
+</body>
+</html>

@@ -1,0 +1,175 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <meta charset="utf-8">
+  <title>E-commerce Home</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style type="text/css">
+    #hii{
+      color:green;
+      font-weight: bold;
+      text-align:center;
+      font-size:35px;
+    }
+    #hi{
+      font-style: italic;
+      color:goldenrod;
+    }
+      nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 10px 20px;
+    color: white;
+  }
+
+  nav h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+
+  nav div a, nav div span {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+    font-weight: 500;
+  }
+
+  nav div span.email {
+    font-weight: bold;
+    background-color: #555; /* subtle highlight */
+    padding: 3px 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px; /* space between icon and email */
+  }
+
+  nav div a:hover {
+    text-decoration: underline;
+  }
+  footer{
+    border:2px solid black;
+    background-color: #333;
+    color: white;
+  }
+  .gapp{
+    margin:10px 90px;
+    display:flex;
+    justify-content:space-between;
+    color: white;
+  }
+  p{
+    font-size:20px;
+  }
+  #idd{
+    width:400px;
+    height:30px;
+  }
+  .contain{
+    color:yellow;
+    border:2px solid ;
+    border-color:white;
+    padding:150px;
+    border-width:10px;
+    background:url("https://wallpapercave.com/wp/wp4184159.jpg");
+    text-align:center;
+    font-size:20px;
+  }
+  marquee{
+    color:rgb(244, 247, 248);
+    width:divice-width;
+    padding:10px;
+    background-color: blue;
+    font-size: 30px;
+    font-weight: bold;
+  }
+  </style>
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const searchInput = document.getElementById("idd");
+  const productCards = document.querySelectorAll(".product-card");
+
+  searchInput.addEventListener("keyup", function () {
+    const searchValue = searchInput.value.toLowerCase();
+
+    productCards.forEach(card => {
+      const productName = card.querySelector("h3").textContent.toLowerCase();
+      if (productName.includes(searchValue)) {
+        card.style.display = "block";  // show match
+      } else {
+        card.style.display = "none";   // hide non-match
+      }
+    });
+  });
+});
+</script>
+
+</head>
+<body>
+ <header>
+  <nav>
+    <h1>Bhavi's Shop</h1>
+    <div>
+    <input id="idd" type="search"> Search products </search></div>
+    <div>
+     {% if logged_user %}
+    <span class="email">👤 Welcome, {{ logged_user.email }}</span>
+    <a href="{{ url_for('cart_bp.view_cart') }}">Cart</a>
+    <a href="{{ url_for('user_bp.logout') }}">Logout</a>
+    {% if logged_user.is_admin %}
+        <a href="{{ url_for('product_bp.admin_list') }}">Admin</a>
+    {% endif %}
+    {% else %}
+    <a href="{{ url_for('user_bp.login') }}">Login</a>
+    <a href="{{ url_for('user_bp.register') }}">Register</a>
+    {% endif %}
+
+    </div>
+  </nav>
+</header>
+
+  <main>
+    <marquee> <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="yellow" class="bi bi-claude" viewBox="0 0 16 16">
+  <path d="m3.127 10.604 3.135-1.76.053-.153-.053-.085H6.11l-.525-.032-1.791-.048-1.554-.065-1.505-.08-.38-.081L0 7.832l.036-.234.32-.214.455.04 1.009.069 1.513.105 1.097.064 1.626.17h.259l.036-.105-.089-.065-.068-.064-1.566-1.062-1.695-1.121-.887-.646-.48-.327-.243-.306-.104-.67.435-.48.585.04.15.04.593.456 1.267.981 1.654 1.218.242.202.097-.068.012-.049-.109-.181-.9-1.626-.96-1.655-.428-.686-.113-.411a2 2 0 0 1-.068-.484l.496-.674L4.446 0l.662.089.279.242.411.94.666 1.48 1.033 2.014.302.597.162.553.06.17h.105v-.097l.085-1.134.157-1.392.154-1.792.052-.504.25-.605.497-.327.387.186.319.456-.045.294-.19 1.23-.37 1.93-.243 1.29h.142l.161-.16.654-.868 1.097-1.372.484-.545.565-.601.363-.287h.686l.505.751-.226.775-.707.895-.585.759-.839 1.13-.524.904.048.072.125-.012 1.897-.403 1.024-.186 1.223-.21.553.258.06.263-.218.536-1.307.323-1.533.307-2.284.54-.028.02.032.04 1.029.098.44.024h1.077l2.005.15.525.346.315.424-.053.323-.807.411-3.631-.863-.872-.218h-.12v.073l.726.71 1.331 1.202 1.667 1.55.084.383-.214.302-.226-.032-1.464-1.101-.565-.497-1.28-1.077h-.084v.113l.295.432 1.557 2.34.08.718-.112.234-.404.141-.444-.08-.911-1.28-.94-1.44-.759-1.291-.093.053-.448 4.821-.21.246-.484.186-.403-.307-.214-.496.214-.98.258-1.28.21-1.016.19-1.263.112-.42-.008-.028-.092.012-.953 1.307-1.448 1.957-1.146 1.227-.274.109-.477-.247.045-.44.266-.39 1.586-2.018.956-1.25.617-.723-.004-.105h-.036l-4.212 2.736-.75.096-.324-.302.04-.496.154-.162 1.267-.871z"/>
+</svg>&nbsp;&nbsp;&nbsp;% Diwali Offer Only For 10 Days % <br> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;***********50% Offer***********&nbsp;&nbsp;&nbsp; <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="yellow" class="bi bi-claude" viewBox="0 0 16 16">
+  <path d="m3.127 10.604 3.135-1.76.053-.153-.053-.085H6.11l-.525-.032-1.791-.048-1.554-.065-1.505-.08-.38-.081L0 7.832l.036-.234.32-.214.455.04 1.009.069 1.513.105 1.097.064 1.626.17h.259l.036-.105-.089-.065-.068-.064-1.566-1.062-1.695-1.121-.887-.646-.48-.327-.243-.306-.104-.67.435-.48.585.04.15.04.593.456 1.267.981 1.654 1.218.242.202.097-.068.012-.049-.109-.181-.9-1.626-.96-1.655-.428-.686-.113-.411a2 2 0 0 1-.068-.484l.496-.674L4.446 0l.662.089.279.242.411.94.666 1.48 1.033 2.014.302.597.162.553.06.17h.105v-.097l.085-1.134.157-1.392.154-1.792.052-.504.25-.605.497-.327.387.186.319.456-.045.294-.19 1.23-.37 1.93-.243 1.29h.142l.161-.16.654-.868 1.097-1.372.484-.545.565-.601.363-.287h.686l.505.751-.226.775-.707.895-.585.759-.839 1.13-.524.904.048.072.125-.012 1.897-.403 1.024-.186 1.223-.21.553.258.06.263-.218.536-1.307.323-1.533.307-2.284.54-.028.02.032.04 1.029.098.44.024h1.077l2.005.15.525.346.315.424-.053.323-.807.411-3.631-.863-.872-.218h-.12v.073l.726.71 1.331 1.202 1.667 1.55.084.383-.214.302-.226-.032-1.464-1.101-.565-.497-1.28-1.077h-.084v.113l.295.432 1.557 2.34.08.718-.112.234-.404.141-.444-.08-.911-1.28-.94-1.44-.759-1.291-.093.053-.448 4.821-.21.246-.484.186-.403-.307-.214-.496.214-.98.258-1.28.21-1.016.19-1.263.112-.42-.008-.028-.092.012-.953 1.307-1.448 1.957-1.146 1.227-.274.109-.477-.247.045-.44.266-.39 1.586-2.018.956-1.25.617-.723-.004-.105h-.036l-4.212 2.736-.75.096-.324-.302.04-.496.154-.162 1.267-.871z"/>
+</svg></marquee>
+    <h2 id="hii">ORGANIC VEGETABLES</h2>
+    <div class="contain">
+    <h1> FARM TO TABLE <BR><br> 100% ORGANIC VEGETABLES IN YOUR DOORSTEP</h1></div><br> <br> <br>
+    <div class="products">
+      {% for product in products %}
+        <div class="product-card">
+          <img src="{{ url_for('static', filename='images/' ~ (product.image or 'placeholder.png')) }}" alt="{{ product.name }}">
+          <h3>{{ product.name }}</h3>
+          <p><b>₹{{ product.price }}</b></p>
+          <p>Stock: {{ product.stock }}</p>
+          <a class="btn" href="{{ url_for('product_bp.view_product', product_id=product.id) }}">View</a>
+        </div>
+      {% else %}
+        <p>No products available.</p>
+      {% endfor %}
+    </div>
+  </main><br> <br> <br>
+
+  <footer>
+    <h3> <u>About Us</u></h3><br> <br>
+    <p> Welcome to Bhavi's Shop - Your trusted destination for the fresh nd organic Vegetables!
+      We are committed to bringing you farm-fresh produce directly from local growers.
+      Every vegetable is carefully handpicked to ensure top quality,rich flavor and maximum nutrition.
+      Our mission is to make healthy living easy and affordable.with just few clicks ,you can order your daily vegetable onlie and enjoy doorstep delivery.
+      We believe in supporting sustainable farming practices and empowering local farmers,while providing our customers with the best shopping experience.
+      <br> <br>
+      <h4> THANKYOU for choosing Bhavi's Shop</h4><br> <br>
+    </p>
+      <div class="gapp">
+      <h3> contact: 9486592095 </h3>
+      <h3> email: bhavithra261@gmail.com</h3>
+      </div>
+  </footer>
+</body>
+</html>
