@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ product.name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style type="text/css">
+    #abc{
+      font-size: 20px;
+      color: white;
+      border: 2px solid blue;
+      background-color: blue;
+      padding: 5px 10px;
+      text-decoration: none;
+    }
+    a{
+      text-decoration: none;
+    }
+    .qr img {
+      width: 250px;
+      height: 250px;
+      text-align:center;
+    }
+    input[type="submit"] {
+      font-size: 16px;
+      padding: 5px 10px;
+    }
+    #btns{
+      color:black;
+      background-color: orange;
+      font-size:30px;
+    }
+    .qr{
+      text-align: center;
+    }
+    #bt{
+      background-color: brown;
+      border-radius:50%;
+      color:white;
+      padding:10px;
+    }
+  </style>
+  
+</head>
+<body>
+  <a id="bt" href="{{ url_for('index') }}">← Back</a>
+  <div class="product-detail">
+
+    <img src="{{ url_for('static', filename='images/' ~ (product.image or 'placeholder.png')) }}" alt="{{ product.name }}">
+    <div class="info">
+      <h2>NAME: <b>{{ product.name }}</b></h2>
+      <h2>{{ product.description }}</h2>
+      <h2>PRICE: <b>₹{{ product.price }}</b></h2>
+      <h3>Stock: {{ product.stock }}</h3>
+
+      <!-- Add to Cart -->
+      <form action="{{ url_for('cart_bp.add_to_cart', product_id=product.id) }}" method="post">
+        <label>Quantity</label>
+        <input type="number" name="quantity" min="1" max="{{ product.stock }}" value="1"><br> <br>
+        <input type="submit"  id="btns" value="ADD TO CART">
+      </form>
+
+      {% if logged_user %}
+  <form action="{{ url_for('cart_bp.buy_now') }}" method="post" style="margin-top:10px;">
+    <input type="hidden" name="product_id" value="{{ product.id }}">
+    <input type="hidden" name="quantity" value="1">
+    <input type="submit" id="btns" value="BUY NOW">
+  </form>
+{% else %}
+  <form action="{{ url_for('user_bp.login') }}" method="get" style="margin-top:10px;">
+    <input type="hidden" name="next" value="{{ url_for('product_bp.view_product', product_id=product.id) }}">
+    <input type="submit" id="btns" value="BUY NOW">
+  </form>
+{% endif %}
+
+
+
+    </div>
+
+    <div class="qr">
+      <h2>FARMER DETAILS</h2>
+      <img src="{{ url_for('static', filename='images/' ~ (product.qr or 'placeholder.png')) }}" alt="{{ product.name }}">
+    </div>
+
+  </div>
+</body>
+</html>

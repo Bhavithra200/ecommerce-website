@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    #ab{
+      width:400px;
+      height:10px;
+    }
+  </style>
+</head>
+<body>
+  <a href="{{ url_for('index') }}">← Continue shopping</a>
+  <h1>Your Cart</h1>
+
+  {% if items %}
+    <table class="cart-table">
+      <thead>
+        <tr><th>Product</th><th>Price</th><th>Qty</th><th>Subtotal</th><th></th></tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td>
+              <img src="{{ url_for('static', filename='images/' ~ (item.image or 'placeholder.png')) }}" width="60">
+              {{ item.name }}
+            </td>
+            <td>₹{{ item.price }}</td>
+            <td>
+              <form action="{{ url_for('cart_bp.update_cart', cart_id=item.cart_id) }}" method="post">
+                <input type="number" id="ab" name="quantity" value="{{ item.quantity }}" min="1">
+                <button type="submit">Update</button>
+              </form>
+            </td>
+            <td>₹{{ '%.2f' | format(item.price * item.quantity) }}</td>
+            <td>
+              <form action="{{ url_for('cart_bp.remove_from_cart', cart_id=item.cart_id) }}" method="post">
+                <button type="submit">Remove</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h3>Total: ₹{{ '%.2f' | format(total) }}</h3>
+    <a class="btn" href="{{ url_for('cart_bp.checkout') }}">Checkout</a>
+  {% else %}
+    <p>Your cart is empty.</p>
+  {% endif %}
+</body>
+</html>

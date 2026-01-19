@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Checkout</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    .checkout-items {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .checkout-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 10px;
+    }
+    .checkout-item img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .checkout-item-details {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .total {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .payment-section {
+      margin-top: 25px;
+      text-align: left;
+    }
+    .payment-section img {
+      width: 200px;
+      height: 200px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      align:left;
+    }
+    #ids{
+      border:2px solid black;
+      background-color:green;
+      width:200px;
+      height:40px;
+      color:white;
+      font-size:20px;
+    }
+    img{
+      width:200px;
+      height:200px;
+    }
+    #bk{
+      width:200px;
+      height:60px;
+      background-color:brown;
+      color:white;
+      padding:10px;
+    }
+.dropdown-container {
+    display: none;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+.dropdown-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+.dropdown-btn:hover {
+    background-color: #0056b3;
+}
+</style>
+</head>
+<body>
+<br> <br>
+  <a id="bk" href="{{ url_for('cart_bp.view_cart') }}">← Back to cart</a><br> <br>
+  <h1>Checkout</h1>
+
+  {% if items %}
+    <div class="checkout-items">
+      {% for it in items %}
+        {% set img_file = it.image if it.image else 'placeholder.png' %}
+        <div class="checkout-item">
+          <img src="{{ url_for('static', filename='images/' ~ img_file) }}" alt="{{ it.name }}">
+          <div class="checkout-item-details">
+            <strong>{{ it.name }}</strong>
+            <span>Quantity: {{ it.quantity }}</span>
+            <span>Price: ₹{{ '%.2f' | format(it.price * it.quantity) }}</span>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="total">
+      Total: ₹{{ '%.2f' | format(total) }}
+    </div>
+
+    <!-- Payment Section with QR Code -->
+    <div class="payment-section">
+      <button class="dropdown-btn">Pay using UPI QR Code ▼</button>
+<div class="dropdown-container">
+    <p>Scan the QR code below with any UPI app (Paytm, PhonePe, Google Pay, etc.):</p>
+    <img src="{{ url_for('static', filename='images/payment_qr.jpg') }}" alt="UPI QR Code" style="width:150px;height:150px;">
+</div>
+    <br> <br>
+
+    <form method="post">
+      <button id="ids" type="submit">Place Order</button>
+    </form>
+  {% else %}
+    <p>No items to checkout.</p>
+  {% endif %}
+
+  <script>
+document.querySelector('.dropdown-btn').addEventListener('click', function() {
+    const container = document.querySelector('.dropdown-container');
+    container.style.display = (container.style.display === "block") ? "none" : "block";
+});
+</script>
+
+</body>
+</html>

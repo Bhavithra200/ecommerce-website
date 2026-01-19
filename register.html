@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Register</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<style type="text/css">
+  body{
+    background:url("https://wallpaperaccess.com/full/4893706.jpg")
+  }
+  #di {
+    width:400px;
+    height:30px;
+    background-color: lightgoldenrodyellow;
+    border:2px solid black;
+  }
+  h1{
+    color:white;
+    font-size:40px;
+    
+  }
+  .box{
+    margin:100px 200px;
+  }
+  label{
+    color:white;
+  }
+  p{
+    color:white;
+  }
+  a{
+    color:yellow;
+  }
+</style>
+<body>
+  <div class="box">
+  <h1>Register</h1>
+  <form method="post" action="{{ url_for('user_bp.register') }}">
+    <label>Username</label>
+    <input id="di" name="username" placeholder="Username" required>
+    <label>Email</label>
+    <input id="di" name="email" type="email" placeholder="Email" required>
+    <label>Password</label>
+    <input id="di" name="password" type="password"  placeholder="Password" required><br><br> <br>
+    <button class="btn" type="submit">Register</button>
+  </form>
+  <p>Already registered? <a href="{{ url_for('user_bp.login') }}">Login</a></p>
+  </div>
+</body>
+</html>

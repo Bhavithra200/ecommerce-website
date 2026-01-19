@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ action }} Product</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<style type="text/css">
+  body{
+    background:url("https://static.vecteezy.com/system/resources/previews/022/277/376/large_2x/banner-with-vegetables-copy-space-background-generative-ai-free-photo.jpeg");
+  }
+  #pd{
+    padding:0;
+  }
+  #ab{
+    width:400px;
+    height:20px;
+    border: 2px solid blue;
+  
+  }
+  #bc{
+    width: 400px;
+    height: 100px;
+    border: 2px solid blue;
+  }
+  #btn{
+    width:200px;
+    height:40px;
+    background-color:green;
+    color:white;
+    font-size: 20px;
+  } 
+  #btn1{
+    width:200px;
+    padding:10px;
+    background-color:rgb(126, 60, 12);
+    color:white;
+    font-size: 20px;
+  }
+  label{
+    color:white;
+    font-size:20px;
+  }
+  h1{
+    color:white;
+  }
+input[type="text"],
+input[type="number"],
+input[type="file"]
+{
+width:400px;
+padding:20px;
+}
+
+</style>
+<body>
+  <a  id="btn1" href="{{ url_for('product_bp.admin_list') }}">← Back to Products</a><br><br>
+  <h1>{{ action }} Product</h1>
+
+  <form id="pd" method="POST" enctype="multipart/form-data">
+    <label>Name:</label>
+    <input id="ab" type="text" name="name" value="{{ product.name if product else '' }}" required>
+
+    <label>Description:</label>
+    <textarea id="bc" name="description">{{ product.description if product else '' }}</textarea>
+
+    <label>Price:</label>
+    <input id="ab" type="number" step="0.01" name="price" value="{{ product.price if product else 0 }}" required>
+
+    <label>Stock:</label>
+    <input id="ab" type="number" name="stock" value="{{ product.stock if product else 0 }}" required>
+
+    <label>Image:</label>
+    <input id="ab" type="file" name="image">
+    {% if product and product.image %}
+      <img 
+        src="{{ url_for('static', filename='images/' ~ product.image) }}" 
+        width="100" 
+        onerror="this.src='{{ url_for('static', filename='images/placeholder.png') }}';">
+    {% endif %}
+    <br> <br>
+    <button id="btn" type="submit">{{ action }}</button>
+  </form>
+</body>
+</html>
